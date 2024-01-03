@@ -6,15 +6,22 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    .container {
       text-align: center;
-      margin: 50px;
     }
     h1 {
       color: #333;
     }
-    .result {
-      font-size: 24px;
-      margin-top: 20px;
+    .dice {
+      font-size: 80px;
+      margin-bottom: 20px;
     }
     button {
       padding: 10px 20px;
@@ -26,35 +33,31 @@
       border-radius: 5px;
       margin-top: 20px;
     }
+    .result {
+      font-size: 24px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1>Trò chơi Tài xỉu</h1>
-  <p>Chọn một số từ 1 đến 6:</p>
-  <select id="userChoice">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-  </select>
-  <button onclick="playGame()">Chơi</button>
-  <p class="result" id="result"></p>
+  <div class="container">
+    <h1>Trò chơi Tài xỉu</h1>
+    <p>Bấm nút để tung xúc xắc và kiểm tra kết quả:</p>
+    <p class="dice" id="dice"></p>
+    <button onclick="playGame()">Tung xúc xắc</button>
+    <p class="result" id="result"></p>
+  </div>
 
   <script>
     function playGame() {
-      var userChoice = document.getElementById('userChoice').value;
-      var randomNum = Math.floor(Math.random() * 6) + 1;
-      var resultText = "Số ngẫu nhiên là: " + randomNum + ". ";
-      
-      if (userChoice == randomNum) {
-        resultText += "Bạn đã chiến thắng!";
+      var diceValue = Math.floor(Math.random() * 6) + 1;
+      document.getElementById('dice').innerText = diceValue;
+
+      if (diceValue % 2 === 0) {
+        document.getElementById('result').innerText = "Kết quả: Xỉu";
       } else {
-        resultText += "Bạn đã thua. Hãy thử lại!";
+        document.getElementById('result').innerText = "Kết quả: Tài";
       }
-      
-      document.getElementById('result').innerText = resultText;
     }
   </script>
 </body>
