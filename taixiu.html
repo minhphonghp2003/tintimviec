@@ -1,11 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tai xiu</title>
+  <meta charset="UTF-8">
+  <title>Trò chơi Tài xỉu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+    .result {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    tin tai xiu
+  <h1>Trò chơi Tài xỉu</h1>
+  <p>Chọn một số từ 1 đến 6:</p>
+  <select id="userChoice">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+  </select>
+  <button onclick="playGame()">Chơi</button>
+  <p class="result" id="result"></p>
+
+  <script>
+    function playGame() {
+      var userChoice = document.getElementById('userChoice').value;
+      var randomNum = Math.floor(Math.random() * 6) + 1;
+      var resultText = "Số ngẫu nhiên là: " + randomNum + ". ";
+      
+      if (userChoice == randomNum) {
+        resultText += "Bạn đã chiến thắng!";
+      } else {
+        resultText += "Bạn đã thua. Hãy thử lại!";
+      }
+      
+      document.getElementById('result').innerText = resultText;
+    }
+  </script>
 </body>
 </html>
