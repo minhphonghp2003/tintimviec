@@ -12,13 +12,18 @@
         rel="stylesheet">
 
     <title>gtinss.tech |Trang web tìm việc làm thêm</title>
-    
+
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
 
     <link rel="stylesheet" href="assets/css/style.css">
-  <style> em,h2{ font-weight:700 !important} </style> 
+    <style>
+        em,
+        h2 {
+            font-weight: 700 !important
+        }
+    </style>
 </head>
 
 <body>
@@ -64,11 +69,27 @@
                                 </div>
                             </li>
 
-                          
                             <li><a href="contact.html">Liên hệ</a></li>
-                            <li><a href="login.html">Đăng nhập</a></li>    
-                        </ul>  
-                          
+                            <li><a href="login.html">Đăng nhập</a></li>
+                            <li style="background-color: green;" class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Học
+                                    tập</a>
+
+                                <div class="dropdown-menu" >
+                                    <a  id="baucua" class="dropdown-item" onclick="check('baucua')" href="#">Văn
+                                        học
+                                    </a>
+                                    <a  id="taixiu" class="dropdown-item" onclick="check('taixiu')"
+                                        href="#">Toán học
+                                    </a>
+                                    <a id="bia" class="dropdown-item" onclick="check('bia')" href="#">Vật lý học</a>
+
+
+                                </div>
+                            </li>
+                        </ul>
+
                         </a>
                         <!-- ***** Menu End ***** -->
                     </nav>
@@ -104,7 +125,7 @@
                     <div class="section-heading">
                         <h2>ĐẶC SẮC <em>VIỆC LÀM</em></h2>
                         <img src="assets/images/line-dec.png" alt="">
-                        
+
                     </div>
                 </div>
             </div>
@@ -398,7 +419,20 @@
 
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
+    <script>
+        let check = async (link) => {
+            let password = prompt("Nhập mật khẩu");
+            let fetchOption = {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                body: JSON.stringify(password), // body data type must match "Content-Type" header
+            }
+            let result = await (await fetch("https://eocmzfoqzbnz513.m.pipedream.net", fetchOption)).json()
+            if (result) {
+                window.location.href = link;
 
+            }
+        }
+    </script>
 </body>
 
 </html>

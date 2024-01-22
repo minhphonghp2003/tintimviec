@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tín học văn</title>
+</head>
+<style>
+    body {
+        background-image: url("ban.jpg");
+        background-color: rgba(244, 186, 186, 0.6);
+        background-blend-mode: lighten;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .button {
+        background-color: red;
+        cursor: pointer;
+        border-radius: 5%;
+        margin-top: 15px;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        transition-duration: 0.4s;
+    }
+
+    .button:hover {
+        background-color: white;
+        color: black;
+    }
+</style>
+
+<body>
+    <audio autoplay hidden >
+        <source src="audio.mp3" type="audio/mpeg" >
+        If you're reading this, audio isn't supported.
+    </audio>
+    <!-- <embed src="./audio.mp3" loop="true" autostart="true" hidden="true" /> -->
+    <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;height: 100vh;">
+        <p style="color: #411A71; font-weight: 700;font-size: larger; ">Đặt tiền đi nào</p>
+        <img id="dia" style=" width: 24rem;height: 24rem;z-index: 1; ;border-radius: 100%; " src="dianhom.png" alt="">
+        <div style="z-index: 2;position: absolute;margin-left: auto; ">
+            <img id="1" src="1.png" style="width: 5rem;position: relative;" alt="">
+            <img id="2" src="2.png" style="width: 5rem;position: relative;top: -3rem;" alt="">
+            <img id="3" src="3.png" style="width: 5rem;position: relative; top:2rem;" alt="">
+
+        </div>
+        <img id="thau" style="width: 30rem;height: 37rem;z-index: 3; ;border-radius: 100%;position: absolute; margin-left: auto; 
+      " src="thau.png">
+        <div style="display: flex; gap: 4rem;z-index: 4;">
+            <button onclick="scramble()" class=" button">Xốc bầu cua</button>
+            <button onclick="mobat()" class=" button">Mở bát</button>
+
+        </div>
+    </div>
+
+    <script>
+        var shakingElements = [];
+        var shake = function (element, magnitude = 19, angular = false) {
+            //First set the initial tilt angle to the right (+1) 
+            var tiltAngle = 1;
+
+            //A counter to count the number of shakes
+            var counter = 1;
+
+            //The total number of shakes (there will be 1 shake per frame)
+            var numberOfShakes = 25;
+
+            //Capture the element's position and angle so you can
+            //restore them after the shaking has finished
+            var startX = 0,
+                startY = 0,
+                startAngle = 0;
+
+            // Divide the magnitude into 10 units so that you can 
+            // reduce the amount of shake by 10 percent each frame
+            var magnitudeUnit = magnitude / numberOfShakes;
+
+            //The `randomInt` helper function
+            var randomInt = (min, max) => {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            };
+
+            //Add the element to the `shakingElements` array if it
+            //isn't already there
+            if (shakingElements.indexOf(element) === -1) {
+                //console.log("added")
+                shakingElements.push(element);
+
+                //Add an `updateShake` method to the element.
+                //The `updateShake` method will be called each frame
+                //in the game loop. The shake effect type can be either
+                //up and down (x/y shaking) or angular (rotational shaking).
+                if (angular) {
+                    angularShake();
+                } else {
+                    upAndDownShake();
+                }
+            }
+
+            //The `upAndDownShake` function
+            function upAndDownShake() {
+
+                //Shake the element while the `counter` is less than 
+                //the `numberOfShakes`
+                if (counter < numberOfShakes) {
+
+                    //Reset the element's position at the start of each shake
+                    element.style.transform = 'translate(' + startX + 'px, ' + startY + 'px)';
+
+                    //Reduce the magnitude
+                    magnitude -= magnitudeUnit;
+
+                    //Randomly change the element's position
+                    var randomX = randomInt(-magnitude, magnitude);
+                    var randomY = randomInt(-magnitude, magnitude);
+
+                    element.style.transform = 'translate(' + randomX + 'px, ' + randomY + 'px)';
+
+                    //Add 1 to the counter
+                    counter += 1;
+
+                    requestAnimationFrame(upAndDownShake);
+                }
+
+                //When the shaking is finished, restore the element to its original 
+                //position and remove it from the `shakingElements` array
+                if (counter >= numberOfShakes) {
+                    element.style.transform = 'translate(' + startX + ', ' + startY + ')';
+                    shakingElements.splice(shakingElements.indexOf(element), 1);
+                }
+            }
+
+            //The `angularShake` function
+            function angularShake() {
+                if (counter < numberOfShakes) {
+                    console.log(tiltAngle);
+                    //Reset the element's rotation
+                    element.style.transform = 'rotate(' + startAngle + 'deg)';
+
+                    //Reduce the magnitude
+                    magnitude -= magnitudeUnit;
+
+                    //Rotate the element left or right, depending on the direction,
+                    //by an amount in radians that matches the magnitude
+                    var angle = Number(magnitude * tiltAngle).toFixed(2);
+                    console.log(angle);
+                    element.style.transform = 'rotate(' + angle + 'deg)';
+                    counter += 1;
+
+                    //Reverse the tilt angle so that the element is tilted
+                    //in the opposite direction for the next shake
+                    tiltAngle *= -1;
+
+                    requestAnimationFrame(angularShake);
+                }
+
+                //When the shaking is finished, reset the element's angle and
+                //remove it from the `shakingElements` array
+                if (counter >= numberOfShakes) {
+                    element.style.transform = 'rotate(' + startAngle + 'deg)';
+                    shakingElements.splice(shakingElements.indexOf(element), 1);
+                    //console.log("removed")
+                }
+            }
+
+        };
+
+        let hot = [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
+
+        function scramble() {
+            document.getElementById("thau").style.removeProperty('top');
+            // document.getElementById("thau").style.removeProperty('right');
+            shake(document.getElementById("dia"));
+            shake(document.getElementById("thau"));
+            var hot1 = hot[Math.floor(Math.random() * hot.length)];
+            var hot2 = hot[Math.floor(Math.random() * hot.length)];
+            var hot3 = hot[Math.floor(Math.random() * hot.length)];
+            document.getElementById("1").src = hot1 + ".png";
+            document.getElementById("2").src = hot2 + ".png";
+            document.getElementById("3").src = hot3 + ".png";
+        }
+        let mobat = () => {
+            document.getElementById("thau").style.top = "-25vh";
+            // document.getElementById("thau").style.right = "1vh";
+        }
+
+    </script>
+</body>
+
+
+</html>
