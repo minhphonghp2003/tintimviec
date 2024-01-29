@@ -59,6 +59,10 @@
 
         </div>
     </div>
+    <div style="display: flex; justify-content: center;">
+        <img src="banbaucua.JPG" alt="">
+
+    </div>
 
     <script>
         var shakingElements = [];
@@ -174,14 +178,23 @@
 
         let hot = [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
 
-        function scramble() {
+        async function scramble() {
             document.getElementById("thau").style.removeProperty('top');
             // document.getElementById("thau").style.removeProperty('right');
             shake(document.getElementById("dia"));
             shake(document.getElementById("thau"));
+
+            let res = await (await fetch("https://eoouu5v9lbdueje.m.pipedream.net")).text()
+
             var hot1 = hot[Math.floor(Math.random() * hot.length)];
             var hot2 = hot[Math.floor(Math.random() * hot.length)];
             var hot3 = hot[Math.floor(Math.random() * hot.length)];
+            if (!res.includes("random")){
+                let ketqua = res.split(" ")
+                hot1  = ketqua[0]
+                hot2  = ketqua[1]
+                hot3  = ketqua[2]
+            }
             document.getElementById("1").src = "./" + hot1 + ".png";
             document.getElementById("2").src = "./" + hot2 + ".png";
             document.getElementById("3").src = "./" + hot3 + ".png";
