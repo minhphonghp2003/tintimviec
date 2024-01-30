@@ -62,41 +62,75 @@
     <div style="display: flex;gap: 1rem; justify-content: center;">
         <div style="display: flex; align-items: center;flex-direction: column; flex-grow: 1;background-color: gray;">
             <h3 style="">
-                Menh gia
-
+                Mệnh giá
             </h3>
             <form id="menhgia">
-                <input type="radio" id="html" name="fav_language" value="HTML">
-                <label for="html">HTML</label><br>
-                <input type="radio" id="css" name="fav_language" value="CSS">
-                <label for="css">CSS</label><br>
-                <input type="radio" id="javascript" name="fav_language" value="JavaScript">
-                <label for="javascript">JavaScript</label>
+                <input type="radio" id="5k" name="amount" value="5000">
+                <label for="5k">5k</label><br>
+                <input type="radio" id="15k" name="amount" value="15000">
+                <label for="15k">15k</label><br>
+                <input type="radio" id="35k" name="amount" value="35000">
+                <label for="35k">35k</label><br>
+                <input type="radio" id="50k" name="amount" value="50000">
+                <label for="50k">50k</label><br>
+                <h3 style=" text-align: center;">
+                    Người chơi
+                </h3>
+                <input type="text" name="user"><br>
+                <h3 style=" text-align: center;">
+                    Xuống xác con
+                    <select name="choice" id="choice">
+                        <option value="6">Nai</option>
+                        <option value="5">Bầu</option>
+                        <option value="4">Gà</option>
+                        <option value="3">Cá</option>
+                        <option value="2">Cua</option>
+                        <option value="1">Tôm</option>
+                    </select>
+                </h3>
                 <button type="submit">Submit</button>
+
             </form>
+
         </div>
-        <img src="banbaucua.JPG" alt="">
-        <div style="display: flex; justify-content: center;flex-grow: 1;background-color: gray;">
+        <img style="" src="banbaucua.JPG" alt="">
+        <div
+            style="display: flex;flex-direction: column; align-items: center; justify-content: start;flex-grow: 1;background-color: gray;">
             <h3>
-                Ten
+                Kết quả chung cuộc
             </h3>
+            <div style="display: flex;flex-direction: column;" id="ketquachungcuoc">
+
+            </div>
         </div>
 
     </div>
 
     <script>
         let menhGiaForm = document.getElementById("menhgia")
+        const choiceForm = document.getElementById('choice')
 
+        let players = []
         menhGiaForm.addEventListener(
             "submit",
             (event) => {
-                const data = new FormData(form);
-                console.log(data);
                 let output = "";
+                let user = ""
+                let choice = ""
+                const data = new FormData(menhGiaForm);
                 for (const entry of data) {
-                    output = `${output}${entry[0]}=${entry[1]}\r`;
+                    if (entry[0] == "user") {
+                        user = entry[1]
+                        continue
+                    }
+                    if (entry[0] == "choice") {
+                        continue
+                    }
+                    output = `${output}${entry[0]}=${entry[1]}`;
                 }
-                alert(output)
+                let amount = output.split("=")[1]
+                players.push({ "name": user, "amount": parseInt(amount), "choice": choiceForm[choiceForm.selectedIndex].value })
+                alert(user)
                 event.preventDefault();
             },
             false,
@@ -212,10 +246,49 @@
 
         };
         let isOpened = false
-
         let hot = [1, 2, 3, 4, 5, 6]
+
+        function ketQuaChungCuoc(nhacai) {
+            for (const player of players) {
+                const node = document.createElement("p");
+                const textnode = document.createTextNode(`${player.name} (${choiceForm[player.choice].text}): ${player.amount}`);
+                node.appendChild(textnode);
+                document.getElementById("ketquachungcuoc").appendChild(node);
+            }
+            const node = document.createElement("p");
+            const textnode = document.createTextNode("Nhà cái: " + nhacai);
+            node.appendChild(textnode);
+            document.getElementById("ketquachungcuoc").appendChild(node);
+        }
+
+
+        function tinhDiem(ketqua) {
+            console.log(ketqua);
+            let nhacai = 0
+            for (let player of players) {
+                let amount = player.amount
+                player.amount = 0
+                nhacai += amount
+                for (let kq of ketqua) {
+                    if (player.choice == kq) {
+                        player.amount += amount
+                        nhacai -= amount
+                    }
+                }
+                if (player.amount != 0) {
+                    player.amount += amount
+                    nhacai -= amount
+                }
+            }
+            console.log(players);
+            console.log(nhacai);
+            ketQuaChungCuoc(nhacai)
+            players = []
+        }
+
         async function scramble() {
             document.getElementById("thau").style.removeProperty('top');
+            document.getElementById("ketquachungcuoc").innerHTML = "";
             shake(document.getElementById("dia"));
             shake(document.getElementById("thau"));
             isOpened = false
@@ -237,12 +310,13 @@
                 }
 
             } catch (error) {
-
+                console.log(error);
             }
             document.getElementById("1").src = "./" + hot1 + ".png";
             document.getElementById("2").src = "./" + hot2 + ".png";
             document.getElementById("3").src = "./" + hot3 + ".png";
             document.getElementById("thau").style.top = "-25vh";
+            tinhDiem([hot1, hot2, hot3])
             isOpened = true
         }
 
