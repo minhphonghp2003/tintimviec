@@ -251,7 +251,7 @@
         function ketQuaChungCuoc(nhacai) {
             for (const player of players) {
                 const node = document.createElement("p");
-                const textnode = document.createTextNode(`${player.name} (${choiceForm[player.choice].text}): ${player.amount}`);
+                const textnode = document.createTextNode(`${player.name} (${choiceForm[6-player.choice].text}): ${player.amount}`);
                 node.appendChild(textnode);
                 document.getElementById("ketquachungcuoc").appendChild(node);
             }
@@ -310,7 +310,7 @@
                 }
 
             } catch (error) {
-                console.log(error);
+                console.log(eror);
             }
             document.getElementById("1").src = "./" + hot1 + ".png";
             document.getElementById("2").src = "./" + hot2 + ".png";
