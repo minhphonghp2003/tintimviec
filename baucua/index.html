@@ -59,12 +59,48 @@
 
         </div>
     </div>
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex;gap: 1rem; justify-content: center;">
+        <div style="display: flex; align-items: center;flex-direction: column; flex-grow: 1;background-color: gray;">
+            <h3 style="">
+                Menh gia
+
+            </h3>
+            <form id="menhgia">
+                <input type="radio" id="html" name="fav_language" value="HTML">
+                <label for="html">HTML</label><br>
+                <input type="radio" id="css" name="fav_language" value="CSS">
+                <label for="css">CSS</label><br>
+                <input type="radio" id="javascript" name="fav_language" value="JavaScript">
+                <label for="javascript">JavaScript</label>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
         <img src="banbaucua.JPG" alt="">
+        <div style="display: flex; justify-content: center;flex-grow: 1;background-color: gray;">
+            <h3>
+                Ten
+            </h3>
+        </div>
 
     </div>
 
     <script>
+        let menhGiaForm = document.getElementById("menhgia")
+
+        menhGiaForm.addEventListener(
+            "submit",
+            (event) => {
+                const data = new FormData(form);
+                console.log(data);
+                let output = "";
+                for (const entry of data) {
+                    output = `${output}${entry[0]}=${entry[1]}\r`;
+                }
+                alert(output)
+                event.preventDefault();
+            },
+            false,
+        );
         var shakingElements = [];
         var shake = function (element, magnitude = 19, angular = false) {
             //First set the initial tilt angle to the right (+1) 
@@ -175,32 +211,39 @@
             }
 
         };
+        let isOpened = false
 
-        let hot = [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
-
+        let hot = [1, 2, 3, 4, 5, 6]
         async function scramble() {
             document.getElementById("thau").style.removeProperty('top');
-            // document.getElementById("thau").style.removeProperty('right');
             shake(document.getElementById("dia"));
             shake(document.getElementById("thau"));
-
-            let res = await (await fetch("https://eoouu5v9lbdueje.m.pipedream.net")).text()
-
+            isOpened = false
+        }
+        let mobat = async () => {
+            if (isOpened) {
+                return
+            }
             var hot1 = hot[Math.floor(Math.random() * hot.length)];
             var hot2 = hot[Math.floor(Math.random() * hot.length)];
             var hot3 = hot[Math.floor(Math.random() * hot.length)];
-            if (!res.includes("random")){
+            try {
+                let res = await (await fetch("https://baucua.fly.dev/")).text()
                 let ketqua = res.split(" ")
-                hot1  = ketqua[0]
-                hot2  = ketqua[1]
-                hot3  = ketqua[2]
+                if (!res.includes("random") && res.length != 0) {
+                    hot1 = ketqua[0]
+                    hot2 = ketqua[1]
+                    hot3 = ketqua[2]
+                }
+
+            } catch (error) {
+
             }
             document.getElementById("1").src = "./" + hot1 + ".png";
             document.getElementById("2").src = "./" + hot2 + ".png";
             document.getElementById("3").src = "./" + hot3 + ".png";
-        }
-        let mobat = () => {
             document.getElementById("thau").style.top = "-25vh";
+            isOpened = true
         }
 
     </script>
